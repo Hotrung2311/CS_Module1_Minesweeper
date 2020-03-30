@@ -1,0 +1,14 @@
+.GameBoard{
+    width:60%;
+    float: left;
+}
+.GameInfo{
+    width: 40%;
+    float: left;
+}
+table{
+    border-collapse: collapse;
+}
+td{
+    text-align: center;
+}
