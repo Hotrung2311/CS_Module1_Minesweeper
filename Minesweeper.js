@@ -1,15 +1,16 @@
 // Khai báo
+const DEFAULT_COLS = 20;
+const DEFAULT_ROWS = 20;
+const DEFAULT_CELL_SIZE = 50;
+const DEFAULT_CELL_VALUE = 0;
+
 let board1 = document.getElementById("board");
-let flag = []; // dùng để đánh dấu xem ô có mìn
-flag.length = 20;
 // --------------------------------------------------------------------------------------------------------------
 // Khai báo class
-let Board = function (rowcount, colcount, mines, board) {
+let GameBoard = function (rowcount, colcount, mines, board) {
     this.rowcount = rowcount;
     this.colcount = colcount;
     this.mines = mines;
-    this.flag = [];
-    this.flag.length = this.rowcount;
 
     this.createBoard = function () {
         for (let i = 0; i < this.rowcount; i++){
@@ -49,6 +50,8 @@ let Board = function (rowcount, colcount, mines, board) {
         }
     };
     this.checkMines = function () {
+
+        //Check bom ở góc của GameBoard
         //Góc trên bên trái
         if(board.rows[0].cells[0].value === "X") {
             if (board.rows[0].cells[1].value !== "X") {
@@ -111,7 +114,109 @@ let Board = function (rowcount, colcount, mines, board) {
             }
         }
 
+        // Check bom ở cạn của GameBoard
+        // Bên trên
+        for (let i = 1; i < this.colcount-1; i++){
+            if(board.rows[0].cells[i].value === "X") {
+                if (board.rows[0].cells[i-1].value !== "X") {
+                    board.rows[0].cells[i-1].value += 1;
+                    board.rows[0].cells[i-1].innerHTML = board.rows[0].cells[i-1].value;
+                }
+                if (board.rows[0].cells[i+1].value !== "X") {
+                    board.rows[0].cells[i+1].value += 1;
+                    board.rows[0].cells[i+1].innerHTML = board.rows[0].cells[i+1].value;
+                }
+                if (board.rows[1].cells[i].value !== "X") {
+                    board.rows[1].cells[i].value += 1;
+                    board.rows[1].cells[i].innerHTML = board.rows[1].cells[i].value;
+                }
+                if (board.rows[1].cells[i-1].value !== "X") {
+                    board.rows[1].cells[i-1].value += 1;
+                    board.rows[1].cells[i-1].innerHTML = board.rows[1].cells[i-1].value;
+                }
+                if (board.rows[1].cells[i+1].value !== "X") {
+                    board.rows[1].cells[i+1].value += 1;
+                    board.rows[1].cells[i+1].innerHTML = board.rows[1].cells[i+1].value;
+                }
+            }
+        }
+        // Bên dưới
+        for (let i = 1; i < this.colcount-1; i++){
+            if(board.rows[this.rowcount-1].cells[i].value === "X") {
+                if (board.rows[this.rowcount-2].cells[i-1].value !== "X") {
+                    board.rows[this.rowcount-2].cells[i-1].value += 1;
+                    board.rows[this.rowcount-2].cells[i-1].innerHTML = board.rows[this.rowcount-2].cells[i-1].value;
+                }
+                if (board.rows[this.rowcount-2].cells[i+1].value !== "X") {
+                    board.rows[this.rowcount-2].cells[i+1].value += 1;
+                    board.rows[this.rowcount-2].cells[i+1].innerHTML = board.rows[this.rowcount-2].cells[i+1].value;
+                }
+                if (board.rows[this.rowcount-2].cells[i].value !== "X") {
+                    board.rows[this.rowcount-2].cells[i].value += 1;
+                    board.rows[this.rowcount-2].cells[i].innerHTML = board.rows[this.rowcount-2].cells[i].value;
+                }
+                if (board.rows[this.rowcount-1].cells[i-1].value !== "X") {
+                    board.rows[this.rowcount-1].cells[i-1].value += 1;
+                    board.rows[this.rowcount-1].cells[i-1].innerHTML = board.rows[this.rowcount-1].cells[i-1].value;
+                }
+                if (board.rows[this.rowcount-1].cells[i+1].value !== "X") {
+                    board.rows[this.rowcount-1].cells[i+1].value += 1;
+                    board.rows[this.rowcount-1].cells[i+1].innerHTML = board.rows[this.rowcount-1].cells[i+1].value;
+                }
+            }
+        }
+        // Bên trái
+        for (let i = 1; i < this.colcount-1; i++){
+            if(board.rows[i].cells[0].value === "X") {
+                if (board.rows[i-1].cells[0].value !== "X") {
+                    board.rows[i-1].cells[0].value += 1;
+                    board.rows[i-1].cells[0].innerHTML = board.rows[i-1].cells[0].value;
+                }
+                if (board.rows[i+1].cells[0].value !== "X") {
+                    board.rows[i+1].cells[0].value += 1;
+                    board.rows[i+1].cells[0].innerHTML = board.rows[i+1].cells[0].value;
+                }
+                if (board.rows[i].cells[1].value !== "X") {
+                    board.rows[i].cells[1].value += 1;
+                    board.rows[i].cells[1].innerHTML = board.rows[i].cells[1].value;
+                }
+                if (board.rows[i-1].cells[1].value !== "X") {
+                    board.rows[i-1].cells[1].value += 1;
+                    board.rows[i-1].cells[1].innerHTML = board.rows[i-1].cells[1].value;
+                }
+                if (board.rows[i+1].cells[1].value !== "X") {
+                    board.rows[i+1].cells[1].value += 1;
+                    board.rows[i+1].cells[1].innerHTML = board.rows[i+1].cells[1].value;
+                }
+            }
+        }
+        // Bên phải
+        for (let i = 1; i < this.colcount-1; i++){
+            if(board.rows[i].cells[this.colcount-1].value === "X") {
+                if (board.rows[i-1].cells[this.colcount-1].value !== "X") {
+                    board.rows[i-1].cells[this.colcount-1].value += 1;
+                    board.rows[i-1].cells[this.colcount-1].innerHTML = board.rows[i-1].cells[this.colcount-1].value;
+                }
+                if (board.rows[i+1].cells[this.colcount-1].value !== "X") {
+                    board.rows[i+1].cells[this.colcount-1].value += 1;
+                    board.rows[i+1].cells[this.colcount-1].innerHTML = board.rows[i+1].cells[this.colcount-1].value;
+                }
+                if (board.rows[i].cells[this.colcount-2].value !== "X") {
+                    board.rows[i].cells[this.colcount-2].value += 1;
+                    board.rows[i].cells[this.colcount-2].innerHTML = board.rows[i].cells[this.colcount-2].value;
+                }
+                if (board.rows[i-1].cells[this.colcount-2].value !== "X") {
+                    board.rows[i-1].cells[this.colcount-2].value += 1;
+                    board.rows[i-1].cells[this.colcount-2].innerHTML = board.rows[i-1].cells[this.colcount-2].value;
+                }
+                if (board.rows[i+1].cells[this.colcount-2].value !== "X") {
+                    board.rows[i+1].cells[this.colcount-2].value += 1;
+                    board.rows[i+1].cells[this.colcount-2].innerHTML = board.rows[i+1].cells[this.colcount-2].value;
+                }
+            }
+        }
 
+        //Check bom của các ô giữa GameBoard
         for (let i = 1; i < this.rowcount-1; i++){
             for (let j = 1; j < this.colcount-1; j++){
                 let cell = board.rows[i].cells[j];
@@ -155,23 +260,81 @@ let Board = function (rowcount, colcount, mines, board) {
                 }
 
             }
-        }
     };
+    this.gameInit = function () {
+        this.createBoard();
+        this.addMines();
+        this.checkMines();
+        for (let i = 0; i < this.rowcount; i++){
+            for (let j = 0; j < this.colcount; j++){
+                board.rows[i].cells[j].innerHTML = "";
+            }
+        }
+    }
+};
 
-// --------------------------------------------------------------------------------------------------------------
-// function checkMine(matrix) {
-//     let sum;
-//     for (let i = 0; i < 3; i++){
-//         for (let j = 0; j < 3; j++){
-//             //a[i][j]
+// function Cell(x, y) {
+//     this.x = x;
+//     this.y = y;
+//     this.value = VALUE_EMPTY;
+//     this.getHtml = function(){
+//         let top = x * DEFAULT_CELL_SIZE;
+//         let left = y * DEFAULT_CELL_SIZE;
+//         let cellHtml = '<div id="cell-'+x+'-'+y+'" onclick="play('+x+','+y+')" class="cell" style="position: absolute; width: '+
+//             DEFAULT_CELL_SIZE+'px; height:'+
+//             DEFAULT_CELL_SIZE+'px; left:'+
+//             left+'px; top:'+
+//             top+'px; line-height: '+
+//             DEFAULT_CELL_SIZE+'px;"></div>';
+//         return cellHtml;
+//     };
+//
+//     this.draw = function () {
+//         var cellDiv = document.getElementById("cell-"+x+"-"+y);
+//         switch (this.value){
+//             case VALUE_X:
+//                 cellDiv.innerHTML = "X";
+//                 break;
+//             case VALUE_O:
+//                 cellDiv.innerHTML = "O";
+//                 break;
+//             default:
+//                 cellDiv.innerHTML = "";
+//                 break;
 //         }
 //     }
 // }
 
 //--------------------------------------------------------------------------------------------------------------
+// Sự kiện chuột
+function boardClick(){
+
+}
+
+//function
+
+function minesCount(board){
+    let sum = 0;
+    for (let i = 0; i < board.rowcount; i++) {
+        for (let j = 0; j < board.colcount; j++) {
+            if (board.rows[i].cells[j].value === "X"){
+                sum++;
+            }
+        }
+    }
+    return sum;
+}
+
+//--------------------------------------------------------------------------------------------------------------
 // Chương trình chính
 
-let GameBoard = new Board(20, 20, 50, board1);
-GameBoard.createBoard();
-GameBoard.addMines();
-GameBoard.checkMines();
+let gameBoard = new GameBoard(20, 20, 50, board1);
+gameBoard.gameInit();
+
+// for (let i = 0; i < gameBoard.rowcount; i++) {
+//     for (let j = 0; j < gameBoard.colcount; j++) {
+//         console.log(board1.rows[i].cells[j].value);
+//     }
+// }
+//console.log(minesCount(board1));
+//document.getElementById("minesAmount").innerHTML = "Mines: " + minesCount(gameBoard);
