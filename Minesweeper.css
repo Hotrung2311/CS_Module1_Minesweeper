@@ -1,8 +1,4 @@
-.GameTitle{
-    text-align: center;
-    font-size: 30px;
-    font-family: courier new;
-}
+
 .GameBoard{
     background-color: cyan;
     width:60%;

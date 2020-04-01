@@ -1,4 +1,4 @@
-const cellSize = 50;
+const cellSize = 40;
 const default_Value = 0;
 const BoardGameWidth = 20;
 const BoardGameHeight = 20;
@@ -7,6 +7,7 @@ let Cell = function (x, y) {
     this.x = x;
     this.y = y;
     this.value = default_Value;
+    this.check = false;
 
     this.setValue = function (value) {
         this.value = value;
@@ -23,9 +24,23 @@ let Cell = function (x, y) {
     };
     this.drawValue = function () {
         let cellDiv = document.getElementById("cell-" + x + "-" + y);
+        // let cellTopRight = document.getElementById("cell-" + x-1 + "-" + y);
+        // let cellTop = document.getElementById("cell-" + x-1 + "-" + y);
+        // let cellTopLeft = document.getElementById("cell-" + x-1 + "-" + y);
         if (cellDiv.value !== ""){
             cellDiv.innerHTML = this.value;
             cellDiv.style.backgroundColor = "lightblue";
+            // if (cellDiv.value === 0){
+            //     cellTopLeft.drawValue();
+            //     cellTop.drawValue();
+            //     cellTopRight.drawValue();
+            //     // this.cells[x][y-1].drawValue();
+            //     // this.cells[x][y+1].drawValue();
+            //     // this.cells[x+1][y-1].drawValue();
+            //     // this.cells[x+1][y].drawValue();
+            //     // this.cells[x+1][y+1].drawValue();
+            // }
+            this.check = true;
         }
     }
 };
@@ -204,7 +219,6 @@ let boardGame = function (cols,rows,elementId, mines) {
             }
         }
 
-
         //Check bom ở giữa gamboard
         for (let i = 1; i < this.height-1; i++){
             for (let j = 1; j < this.width-1; j++){
@@ -246,6 +260,43 @@ let boardGame = function (cols,rows,elementId, mines) {
         this.checkMines(x,y);
     };
 
+    this.openGrid = function () {
+        for (let i = 0; i < this.height; i++){
+            for (let j = 0; j < this.width;j++){
+                if (this.cells[i][j].check === true && this.cells[i][j].value === 0) {
+                    this.cells[i-1][j-1].drawValue();
+                    this.cells[i-1][j].drawValue();
+                    this.cells[i-1][j+1].drawValue();
+                    this.cells[i][j-1].drawValue();
+                    this.cells[i][j+1].drawValue();
+                    this.cells[i+1][j-1].drawValue();
+                    this.cells[i+1][j].drawValue();
+                    this.cells[i+1][j+1].drawValue();
+                }
+            }
+        }
+        this.openGrid();
+        // if (this.cells[x][y].value === 0){
+        //     this.cells[x-1][y-1].drawValue();
+        //     this.cells[x-1][y].drawValue();
+        //     this.cells[x-1][y+1].drawValue();
+        //     this.cells[x][y-1].drawValue();
+        //     this.cells[x][y+1].drawValue();
+        //     this.cells[x+1][y-1].drawValue();
+        //     this.cells[x+1][y].drawValue();
+        //     this.cells[x+1][y+1].drawValue();
+        //
+        //     for (let i = 0; i < this.height; i++){
+        //         for (let j = 0; j < this.width;j++){
+        //             if (this.cells[i][j].check === true && this.cells[i][j].value === 0){
+        //                 this.openGrid(i,j);
+        //             }else this.cells[i][j].drawValue()
+        //         }
+        //     }
+        //
+        // }
+    };
+
     this.play = function (x, y) {
         let cell = this.cells[x][y];
         cell.drawValue();
@@ -254,16 +305,69 @@ let boardGame = function (cols,rows,elementId, mines) {
             location.reload(true);
         }
         if (cell.value !== "X"){
+            if (cell.value === 0) {
+                this.openGrid(x, y);
+            }
             cell.drawValue();
-
         }
-
+        // cell.check = true;
+        let sum = 0;
+        if (sum === this.width*this.height - this.mines-1){
+            alert("Thắng rồi nhé, chúc mừng nhé con trai !")
+        }
+        for (let i = 1; i < this.height-1; i++) {
+            for (let j = 1; j < this.width - 1; j++) {
+                if (this.cells[i][j].check){
+                    sum++;
+                }
+            }
+        }
+        document.getElementById("score").innerHTML = "Score: " + sum;
     };
 };
 
 gameBoard = new boardGame(BoardGameHeight, BoardGameWidth, "boardgame", 50);
 gameBoard.gameInit();
 
+//function openGrid(x,y, cells){
+    //let cells=[];
+    //let cell = cells[x][y];
+    // if (cells[x][y].value === 0){
+    //     cells[x-1][y-1].drawValue();
+    //     cells[x-1][y].drawValue();
+    //     cells[x-1][y+1].drawValue();
+    //     cells[x][y-1].drawValue();
+    //     cells[x][y+1].drawValue();
+    //     cells[x+1][y-1].drawValue();
+    //     cells[x+1][y].drawValue();
+    //     cells[x+1][y+1].drawValue();
+    // }
+    // if (cells[x-1][y-1].value === 0){
+    //     openGrid(x-1, y-1);
+    // }
+    // if (cells[x-1][y].value === 0){
+    //     openGrid(x-1, y);
+    // }
+    // if (cells[x-1][y+1].value === 0){
+    //     openGrid(x-1, y+1);
+    // }
+    // if (cells[x][y-1].value === 0){
+    //     openGrid(x, y-1);
+    // }
+    // if (cells[x][y+1].value === 0){
+    //     openGrid(x, y+1);
+    // }
+    // if (cells[x+1][y-1].value === 0){
+    //     openGrid(x+1, y-1);
+    // }
+    // if (cells[x+1][y].value === 0){
+    //     openGrid(x+1, y);
+    // }
+    // if (cells[x+1][y+1].value === 0){
+    //     openGrid(x+1, y+1);
+    // }
+
+//}
 function play(x,y) {
     gameBoard.play(x, y);
 }
