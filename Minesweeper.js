@@ -24,17 +24,11 @@ let Cell = function (x, y) {
     };
     this.drawValue = function () {
         let cellDiv = document.getElementById("cell-" + x + "-" + y);
-        // if (cellDiv.value !== "" && cellDiv.value !== 0){
         if (this.value !== 0){
                 cellDiv.innerHTML = this.value;
         }else {
             cellDiv.innerHTML = "";
         }
-            // if (cellDiv.value === 0){
-            //     cellDiv.innerHTML = "a";
-            // }else {
-            //     cellDiv.innerHTML = this.value;
-            // }
             cellDiv.style.backgroundColor = "lightblue";
             this.check = true;
         //}
@@ -460,7 +454,7 @@ let boardGame = function (cols,rows,elementId, mines) {
                 }
             }
         }
-        document.getElementById("score").innerHTML = "Score: " + sumPlay;
+        document.getElementById("score").innerHTML = "Score: " + sumPlay + "<button onclick=\"restart()\" style=\"float: right\">Restart</button>";
         console.log(sumMines);
     };
 };
@@ -473,6 +467,6 @@ function restart() {
     location.reload(true);
 }
 //------------------------------------------CHƯƠNG TRÌNH CHÍNH------------------------------------------
-gameBoard = new boardGame(BoardGameHeight, BoardGameWidth, "boardgame", 50);
+gameBoard = new boardGame(BoardGameHeight, BoardGameWidth, "boardgame", 60);
 gameBoard.gameInit();
 

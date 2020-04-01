@@ -20,8 +20,10 @@
         }
         #boardgame{
             position: relative;
-            margin: auto;
-            /*margin-top: 30px;*/
+            /*margin: auto;*/
+            margin-top: 30px;
+            float: left;
+            left: 25%;
         }
         .main{
             /*background-color: khaki;*/
@@ -49,8 +51,7 @@
     <h1>Minesweeper</h1>
 </div>
 <div class="info" style="background-color: khaki;">
-    <p id="score">Score: 0 <button onclick="restart()">Restart</button></p>
-    <p></p>
+    <p id="score">Score: 0 <button onclick="restart()" style="float: right">Restart</button></p>
 </div>
 <div class="main" id="boardgame" style="background-color: khaki"></div>
 
