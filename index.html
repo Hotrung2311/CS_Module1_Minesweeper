@@ -3,22 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Minesweeper</title>
-    <link rel="stylesheet" href="Minesweeper.css">
+    <style>
+        .GameTitle{
+            text-align: center;
+            font-size: 30px;
+            font-family: courier new;
+        }
+        .cell{
+            background-color: deepskyblue;
+            border: solid 3px white;
+            text-align: center;
+            font-size:15pt;
+            font-family: courier new;
+            cursor: pointer;
+            color: black;
+        }
+        #boardgame{
+            position: relative;
+            margin-top: 50px;
+        }
+    </style>
 </head>
 <body>
-
 <div class="GameTitle" style="background-color: aquamarine">
     <h1>Minesweeper</h1>
 </div>
-<div class="container">
-    <div class="GameBoard" onclick="play(event)">
-        <table id="board" border="1"></table>
-    </div>
-    <div class="GameInfo" style="background-color: khaki">
-        <p id="minesAmount"></p>
-        <button onclick="restartGame()">Restart Game</button>
-    </div>
-</div>
+<div id="boardgame"></div>
+
+
 <script src="Minesweeper.js"></script>
 </body>
 </html>
