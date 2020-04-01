@@ -24,27 +24,20 @@ let Cell = function (x, y) {
     };
     this.drawValue = function () {
         let cellDiv = document.getElementById("cell-" + x + "-" + y);
-        // let cellTopRight = document.getElementById("cell-" + x-1 + "-" + y);
-        // let cellTop = document.getElementById("cell-" + x-1 + "-" + y);
-        // let cellTopLeft = document.getElementById("cell-" + x-1 + "-" + y);
-        if (cellDiv.value !== ""){
+        // if (cellDiv.value !== "" && cellDiv.value !== 0){
+        if (this.value !== 0){
                 cellDiv.innerHTML = this.value;
-            if (cellDiv.value === 0){
-                cellDiv.innerHTML = "";
-            }
-            cellDiv.style.backgroundColor = "lightblue";
-            // if (cellDiv.value === 0){
-            //     cellTopLeft.drawValue();
-            //     cellTop.drawValue();
-            //     cellTopRight.drawValue();
-            //     // this.cells[x][y-1].drawValue();
-            //     // this.cells[x][y+1].drawValue();
-            //     // this.cells[x+1][y-1].drawValue();
-            //     // this.cells[x+1][y].drawValue();
-            //     // this.cells[x+1][y+1].drawValue();
-            // }
-            this.check = true;
+        }else {
+            cellDiv.innerHTML = "";
         }
+            // if (cellDiv.value === 0){
+            //     cellDiv.innerHTML = "a";
+            // }else {
+            //     cellDiv.innerHTML = this.value;
+            // }
+            cellDiv.style.backgroundColor = "lightblue";
+            this.check = true;
+        //}
     }
 };
 let boardGame = function (cols,rows,elementId, mines) {
@@ -264,6 +257,138 @@ let boardGame = function (cols,rows,elementId, mines) {
     };
 
     this.openGrid = function () {
+        // Mở các góc của grid
+        // Góc trên trái
+        if (this.cells[0][0].check === true && this.cells[0][0].value === 0) {
+            if (this.cells[0][1].check === false) {
+                this.cells[0][1].drawValue();
+            }
+            if (this.cells[1][0].check === false) {
+                this.cells[1][0].drawValue();
+            }
+            if (this.cells[1][1].check === false) {
+                this.cells[1][1].drawValue();
+            }
+        }
+        // Góc dưới trái
+        if (this.cells[0][this.width-1].check === true && this.cells[0][this.width-1].value === 0) {
+            if (this.cells[0][this.width-2].check === false) {
+                this.cells[0][this.width-2].drawValue();
+            }
+            if (this.cells[1][this.width-1].check === false) {
+                this.cells[1][this.width-1].drawValue();
+            }
+            if (this.cells[1][this.width-2].check === false) {
+                this.cells[1][this.width-2].drawValue();
+            }
+        }
+        // Góc trên phải
+        if (this.cells[this.width-1][0].check === true && this.cells[this.width-1][0].value === 0) {
+            if (this.cells[this.width-2][0].check === false) {
+                this.cells[this.width-2][0].drawValue();
+            }
+            if (this.cells[this.width-1][1].check === false) {
+                this.cells[this.width-1][1].drawValue();
+            }
+            if (this.cells[this.width-2][1].check === false) {
+                this.cells[this.width-2][1].drawValue();
+            }
+        }
+        // Góc dưới phải
+        if (this.cells[this.width-1][this.width-1].check === true && this.cells[this.width-1][this.width-1].value === 0) {
+            if (this.cells[this.width-1][this.width-2].check === false) {
+                this.cells[this.width-1][this.width-2].drawValue();
+            }
+            if (this.cells[this.width-2][this.width-1].check === false) {
+                this.cells[this.width-2][this.width-1].drawValue();
+            }
+            if (this.cells[this.width-2][this.width-2].check === false) {
+                this.cells[this.width-2][this.width-2].drawValue();
+            }
+        }
+
+        // Mở các cạnh của grid
+        // Cạnh phải
+        for (let j = 1; j < this.width-1; j++) {
+            if (this.cells[0][j].check === true && this.cells[0][j].value === 0) {
+                if (this.cells[0][j - 1].check === false) {
+                    this.cells[0][j - 1].drawValue();
+                }
+                if (this.cells[0][j + 1].check === false) {
+                    this.cells[0][j + 1].drawValue();
+                }
+                if (this.cells[1][j - 1].check === false) {
+                    this.cells[1][j - 1].drawValue();
+                }
+                if (this.cells[1][j].check === false) {
+                    this.cells[1][j].drawValue();
+                }
+                if (this.cells[1][j + 1].check === false) {
+                    this.cells[1][j + 1].drawValue();
+                }
+            }
+        }
+        // Cạnh trái
+        for (let j = 1; j < this.width-1; j++) {
+                if (this.cells[this.width - 1][j].check === true && this.cells[this.width - 1][j].value === 0) {
+                    if (this.cells[this.width - 1][j - 1].check === false) {
+                        this.cells[this.width - 1][j - 1].drawValue();
+                    }
+                    if (this.cells[this.width - 1][j + 1].check === false) {
+                        this.cells[this.width - 1][j + 1].drawValue();
+                    }
+                    if (this.cells[this.width - 2][j - 1].check === false) {
+                        this.cells[this.width - 2][j - 1].drawValue();
+                    }
+                    if (this.cells[this.width - 2][j].check === false) {
+                        this.cells[this.width - 2][j].drawValue();
+                    }
+                    if (this.cells[this.width - 2][j + 1].check === false) {
+                        this.cells[this.width - 2][j + 1].drawValue();
+                    }
+                }
+            }
+        // Cạnh trên
+        for (let i = 1; i < this.height-1; i++) {
+            if (this.cells[i][0].check === true && this.cells[i][0].value === 0) {
+                if (this.cells[i-1][0].check === false) {
+                    this.cells[i-1][0].drawValue();
+                }
+                if (this.cells[i+1][0].check === false) {
+                    this.cells[i+1][0].drawValue();
+                }
+                if (this.cells[i-1][1].check === false) {
+                    this.cells[i-1][1].drawValue();
+                }
+                if (this.cells[i][1].check === false) {
+                    this.cells[i][1].drawValue();
+                }
+                if (this.cells[i+1][1].check === false) {
+                    this.cells[i+1][1].drawValue();
+                }
+            }
+        }
+        // Cạnh dưới
+        for (let i = 1; i < this.height-1; i++) {
+            if (this.cells[i][this.height-1].check === true && this.cells[i][this.height-1].value === 0) {
+                if (this.cells[i-1][this.height-1].check === false) {
+                    this.cells[i-1][this.height-1].drawValue();
+                }
+                if (this.cells[i+1][this.height-1].check === false) {
+                    this.cells[i+1][this.height-1].drawValue();
+                }
+                if (this.cells[i-1][this.height-2].check === false) {
+                    this.cells[i-1][this.height-2].drawValue();
+                }
+                if (this.cells[i][this.height-2].check === false) {
+                    this.cells[i][this.height-2].drawValue();
+                }
+                if (this.cells[i+1][this.height-2].check === false) {
+                    this.cells[i+1][this.height-2].drawValue();
+                }
+            }
+        }
+
         // Mở phần giữa của grid
         for (let i = 1; i < this.height-1; i++){
             for (let j = 1; j < this.width-1;j++){
@@ -302,7 +427,7 @@ let boardGame = function (cols,rows,elementId, mines) {
         let cell = this.cells[x][y];
         cell.drawValue();
         if (cell.value === "X"){
-            alert("Game Over, dẫm vào mìn rồi !");
+            alert("Ối dồi ôi mìn, thua rồi !");
             location.reload(true);
         }
         if (cell.value !== "X"){
@@ -311,66 +436,43 @@ let boardGame = function (cols,rows,elementId, mines) {
             }
             cell.drawValue();
         }
-        // cell.check = true;
-        let sum = 0;
-        if (sum === this.width*this.height - this.mines-1){
-            alert("Thắng rồi nhé, chúc mừng nhé con trai !")
-        }
-        for (let i = 1; i < this.height-1; i++) {
-            for (let j = 1; j < this.width - 1; j++) {
+        let sumPlay = 0;
+        let sumMines = 0;
+
+        for (let i = 0; i < this.height; i++) {
+            for (let j = 0; j < this.width; j++) {
+                if (this.cells[i][j].value === "X"){
+                    sumMines++;
+                }
                 if (this.cells[i][j].check){
-                    sum++;
+                    sumPlay++;
                 }
             }
         }
-        document.getElementById("score").innerHTML = "Score: " + sum;
+        if (sumPlay === this.width*this.height-sumMines){
+            alert("Thắng rồi, khá lắm con trai !");
+            for (let i = 0; i < this.height; i++) {
+                for (let j = 0; j < this.width; j++) {
+                    if (this.cells[i][j].value === "X") {
+                        document.getElementById("cell-" + i + "-" + j).innerHTML = "X";
+                        //this.cells[i][j].innerHTML = "X";
+                    }
+                }
+            }
+        }
+        document.getElementById("score").innerHTML = "Score: " + sumPlay;
+        console.log(sumMines);
     };
 };
 
-gameBoard = new boardGame(BoardGameHeight, BoardGameWidth, "boardgame", 50);
-gameBoard.gameInit();
-
-//function openGrid(x,y, cells){
-    //let cells=[];
-    //let cell = cells[x][y];
-    // if (cells[x][y].value === 0){
-    //     cells[x-1][y-1].drawValue();
-    //     cells[x-1][y].drawValue();
-    //     cells[x-1][y+1].drawValue();
-    //     cells[x][y-1].drawValue();
-    //     cells[x][y+1].drawValue();
-    //     cells[x+1][y-1].drawValue();
-    //     cells[x+1][y].drawValue();
-    //     cells[x+1][y+1].drawValue();
-    // }
-    // if (cells[x-1][y-1].value === 0){
-    //     openGrid(x-1, y-1);
-    // }
-    // if (cells[x-1][y].value === 0){
-    //     openGrid(x-1, y);
-    // }
-    // if (cells[x-1][y+1].value === 0){
-    //     openGrid(x-1, y+1);
-    // }
-    // if (cells[x][y-1].value === 0){
-    //     openGrid(x, y-1);
-    // }
-    // if (cells[x][y+1].value === 0){
-    //     openGrid(x, y+1);
-    // }
-    // if (cells[x+1][y-1].value === 0){
-    //     openGrid(x+1, y-1);
-    // }
-    // if (cells[x+1][y].value === 0){
-    //     openGrid(x+1, y);
-    // }
-    // if (cells[x+1][y+1].value === 0){
-    //     openGrid(x+1, y+1);
-    // }
-
-//}
+//----------------------------------------------FUNCTIONS-----------------------------------------------
 function play(x,y) {
     gameBoard.play(x, y);
 }
-
+function restart() {
+    location.reload(true);
+}
+//------------------------------------------CHƯƠNG TRÌNH CHÍNH------------------------------------------
+gameBoard = new boardGame(BoardGameHeight, BoardGameWidth, "boardgame", 50);
+gameBoard.gameInit();
 
