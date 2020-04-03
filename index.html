@@ -45,11 +45,17 @@
     </style>
 </head>
 <body>
+<img src="img/minesweeper-the-westing-game-angry-birds-what-s-up-bar-grill-bomb-png.jpg" height="40" width="40"/>
+<img src="img/44-448302_flag-icon-red-red-flag-icon-transparent-clipart.png" height="40" width="40"/>
+
 <div class="GameTitle" style="background-color: aquamarine">
     <h1>Minesweeper</h1>
 </div>
 <div class="info" style="background-color: khaki;">
-    <p id="score">Score: 0 <button onclick="restart()" style="float: right">Restart</button></p>
+    <p id="score">Score: 0
+        <button onclick="restart()" style="float: right; background-color: lightgray">Restart</button>
+        <button id="flag" onclick="flagsMode()" style="float: right; background-color: lightgray">Flag</button>
+    </p>
 </div>
 <div class="main" id="boardgame" style="background-color: khaki"></div>
 

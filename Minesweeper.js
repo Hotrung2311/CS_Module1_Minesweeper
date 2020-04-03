@@ -24,8 +24,11 @@ let Cell = function (x, y) {
     };
     this.drawValue = function () {
         let cellDiv = document.getElementById("cell-" + x + "-" + y);
-        if (this.value !== 0){
-                cellDiv.innerHTML = this.value;
+        if (this.value === "X"){
+                cellDiv.innerHTML = "<img src=\"img/minesweeper-the-westing-game-angry-birds-what-s-up-bar-grill-bomb-png.jpg\" height=\"30\" width=\"35\"/>";
+        }
+            if (this.value !== "X" && this.value!== 0) {
+            cellDiv.innerHTML = this.value;
         }else {
             cellDiv.innerHTML = "";
         }
@@ -40,6 +43,7 @@ let boardGame = function (cols,rows,elementId, mines) {
     this.elementId = elementId;
     this.mines = mines;
     this.cells = [];
+    this.flagModeOn = false;
     this.drawBoard = function () {
         let gameBoardDiv = document.getElementById(this.elementId);
         for(let i = 0; i < this.width; i++){
@@ -417,45 +421,63 @@ let boardGame = function (cols,rows,elementId, mines) {
         this.openGrid();
     };
 
+    this.flagMode = function () {
+        if (this.flagModeOn === true) {
+            this.flagModeOn = false;
+            document.getElementById("flag").style.backgroundColor = "lightgray";
+        }else
+        //if (this.flagModeOn === false)
+        {
+            this.flagModeOn = true;
+            document.getElementById("flag").style.backgroundColor = "red";
+        }
+    };
+
     this.play = function (x, y) {
         let cell = this.cells[x][y];
-        cell.drawValue();
-        if (cell.value === "X"){
-            alert("Ối dồi ôi mìn, thua rồi !");
-            location.reload(true);
+        if (this.flagModeOn === true){
+            document.getElementById("cell-" + x + "-" + y).innerHTML = "<img src=\"img/44-448302_flag-icon-red-red-flag-icon-transparent-clipart.png\" height=\"40\" width=\"40\"/>";
         }
-        if (cell.value !== "X"){
-            if (cell.value === 0) {
-                this.openGrid();
-            }
+        if (this.flagModeOn === false){
             cell.drawValue();
-        }
-        let sumPlay = 0;
-        let sumMines = 0;
-
-        for (let i = 0; i < this.height; i++) {
-            for (let j = 0; j < this.width; j++) {
-                if (this.cells[i][j].value === "X"){
-                    sumMines++;
-                }
-                if (this.cells[i][j].check){
-                    sumPlay++;
-                }
+            if (cell.value === "X"){
+                alert("Ối dồi ôi mìn, thua rồi !");
+                location.reload(true);
             }
-        }
-        if (sumPlay === this.width*this.height-sumMines){
-            alert("Thắng rồi, khá lắm con trai !");
+            if (cell.value !== "X"){
+                if (cell.value === 0) {
+                    this.openGrid();
+                }
+                cell.drawValue();
+            }
+            let sumPlay = 0;
+            let sumMines = 0;
+
             for (let i = 0; i < this.height; i++) {
                 for (let j = 0; j < this.width; j++) {
-                    if (this.cells[i][j].value === "X") {
-                        document.getElementById("cell-" + i + "-" + j).innerHTML = "X";
-                        //this.cells[i][j].innerHTML = "X";
+                    if (this.cells[i][j].value === "X"){
+                        sumMines++;
+                    }
+                    if (this.cells[i][j].check){
+                        sumPlay++;
                     }
                 }
             }
+            if (sumPlay === this.width*this.height-sumMines){
+                alert("Thắng rồi, khá lắm con trai !");
+                for (let i = 0; i < this.height; i++) {
+                    for (let j = 0; j < this.width; j++) {
+                        if (this.cells[i][j].value === "X") {
+                            document.getElementById("cell-" + i + "-" + j).innerHTML = "<img src=\"img/minesweeper-the-westing-game-angry-birds-what-s-up-bar-grill-bomb-png.jpg\" height=\"40\" width=\"40\"/>";
+                            //this.cells[i][j].innerHTML = "X";
+                        }
+                    }
+                }
+            }
+            document.getElementById("score").innerHTML = "Score: " + sumPlay + "<button onclick=\"restart()\" style=\"float: right\">Restart</button><button onclick=\"flagsMode()\" style=\"float: right\">Flag mode</button>";
+            console.log(sumMines);
         }
-        document.getElementById("score").innerHTML = "Score: " + sumPlay + "<button onclick=\"restart()\" style=\"float: right\">Restart</button>";
-        console.log(sumMines);
+
     };
 };
 
@@ -465,6 +487,9 @@ function play(x,y) {
 }
 function restart() {
     location.reload(true);
+}
+function flagsMode(){
+    gameBoard.flagMode();
 }
 //------------------------------------------CHƯƠNG TRÌNH CHÍNH------------------------------------------
 gameBoard = new boardGame(BoardGameHeight, BoardGameWidth, "boardgame", 60);
