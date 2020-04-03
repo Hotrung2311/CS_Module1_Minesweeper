@@ -24,10 +24,11 @@ let Cell = function (x, y) {
     };
     this.drawValue = function () {
         let cellDiv = document.getElementById("cell-" + x + "-" + y);
-        if (this.value === "X"){
-                cellDiv.innerHTML = "<img src=\"img/minesweeper-the-westing-game-angry-birds-what-s-up-bar-grill-bomb-png.jpg\" height=\"30\" width=\"35\"/>";
-        }
-            if (this.value !== "X" && this.value!== 0) {
+        // if (this.value === "X"){
+        //         //cellDiv.innerHTML = "<img src=\"img/minesweeper-the-westing-game-angry-birds-what-s-up-bar-grill-bomb-png.jpg\" height=\"30\" width=\"35\"/>";
+        //         cellDiv.innerHTML = this.value;
+        // }
+            if (this.value !== 0) {
             cellDiv.innerHTML = this.value;
         }else {
             cellDiv.innerHTML = "";
@@ -435,14 +436,25 @@ let boardGame = function (cols,rows,elementId, mines) {
 
     this.play = function (x, y) {
         let cell = this.cells[x][y];
-        if (this.flagModeOn === true){
-            document.getElementById("cell-" + x + "-" + y).innerHTML = "<img src=\"img/44-448302_flag-icon-red-red-flag-icon-transparent-clipart.png\" height=\"40\" width=\"40\"/>";
+        if (this.flagModeOn === true){// && cell.check === false){
+            if (cell.check === false){
+                document.getElementById("cell-" + x + "-" + y).innerHTML = "<img src=\"img/44-448302_flag-icon-red-red-flag-icon-transparent-clipart.png\" height=\"40\" width=\"40\"/>";
+            }else{
+                // this.cells[x-1][y-1].drawValue();
+                // this.cells[x-1][y].drawValue();
+                // this.cells[x-1][y+1].drawValue();
+                // this.cells[x][y-1].drawValue();
+                // this.cells[x][y+1].drawValue();
+                // this.cells[x+1][y-1].drawValue();
+                // this.cells[x+1][y].drawValue();
+                // this.cells[x+1][y+1].drawValue();
+            }
         }
         if (this.flagModeOn === false){
             cell.drawValue();
             if (cell.value === "X"){
                 alert("Ối dồi ôi mìn, thua rồi !");
-                location.reload(true);
+                //location.reload(true);
             }
             if (cell.value !== "X"){
                 if (cell.value === 0) {
@@ -474,7 +486,8 @@ let boardGame = function (cols,rows,elementId, mines) {
                     }
                 }
             }
-            document.getElementById("score").innerHTML = "Score: " + sumPlay + "<button onclick=\"restart()\" style=\"float: right\">Restart</button><button onclick=\"flagsMode()\" style=\"float: right\">Flag mode</button>";
+            document.getElementById("score").innerHTML = "Score: " + sumPlay + "<button onclick=\"restart()\" style=\"float: right; background-color: lightgray\">Restart</button>\n" +
+                "        <button id=\"flag\" onclick=\"flagsMode()\" style=\"float: right; background-color: lightgray\">Flag</button>";
             console.log(sumMines);
         }
 
