@@ -454,7 +454,7 @@ let boardGame = function (cols,rows,elementId, mines) {
             cell.drawValue();
             if (cell.value === "X"){
                 alert("Ối dồi ôi mìn, thua rồi !");
-                //location.reload(true);
+                location.reload(true);
             }
             if (cell.value !== "X"){
                 if (cell.value === 0) {
